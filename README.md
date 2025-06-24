@@ -1,142 +1,120 @@
- 
+
+
 # 🗂️ Software Delivery Plan with Trello
 
-This document outlines the task management workflow for delivering software using **Trello**. It maps each phase from initial planning through deployment, ensuring transparency and traceability across the entire team.
+This document outlines the task and bug management workflow using **Trello + GitHub**, ensuring clarity and traceability across the entire software lifecycle — from feature planning to production deployment.
 
----
 
 ## 📌 Overview
 
-We utilize a Kanban-style Trello board to manage tasks across multiple stages. Each task moves through structured phases, ensuring quality and coordination between development and QA.
+We use a **feature- and bug-based Trello board** to manage software development with integrated GitHub workflows.
+Each card flows through a structured lifecycle, connected to branches and pull requests.
 
+
+## 📋 Trello Board Structure (New)
+
+| Trello List Name                  | Description                                                   |
+| --------------------------------- | ------------------------------------------------------------- |
+| **System Definitions / Features** | High-level modules/features proposed.                         |
+| **To Do**                         | Features prepared by the Team Leader and ready for dev.       |
+| **In Progress**                   | Features under active development.                            |
+| **Code Review**                   | Features pending or undergoing review.                        |
+| **Release Candidate**             | Features merged into `dev`, grouped for version planning.     |
+| **Ready for QA**                  | A version build prepared and pushed to staging.               |
+| **QA in Progress**                | A full version currently being tested.                        |
+| **QA Issues Found**               | Bugs discovered during QA.                                    |
+| **Bugs To Do**                    | Confirmed bugs, labeled and assigned.                         |
+| **Bugs in Progress**              | Bugs under active development in grouped branches.            |
+| **Bugs in Review**                | Bug fixes submitted via PR to `bug-fixed`, pending approval.  |
+| **Bugs Fixed**                    | PR merged to `bug-fixed`, ready to push to staging.           |
+| **Retesting Bugs**                | Bugs deployed to staging from `bug-fixed`, pending QA retest. |
+| **Complete / Passed QA Test**     | Bugs confirmed resolved by QA.                                |
+| **Ready for Deployment**          | The version is QA-approved and ready for production.          |
+| **Deployed**                      | The version has been released to production.                  |
+
+
+## 🔄 Feature & Bug Lifecycle
+
+### **Feature Flow Example**
 ---
 
-## 📋 Trello Board Structure
+1. **To Do** → Team Leader creates a feature card, adds a `branch` label, assigns a dev.
+2. **In Progress** → Developer creates branch `feature/feature-name`, starts coding.
+3. **Code Review** → After implementation, PR is opened for review.
+4. **Release Candidate** → Feature grouped for mobile/backend release.
+5. **Ready for QA** → PR from `dev → staging`, version is created.
+6. **QA in Progress** → QA validates the full version.
+7. **Ready for Deployment** → All bugs fixed, QA approves version.
+8. **Deployed** → PR from `staging → main` triggers deployment.
 
-| Trello List Name             | Description |
-|-----------------------------|-------------|
-| **System Definitions / Features** | High-level features/modules to build (e.g., Authentication, Orders). |
-| **To Do**                   | Tasks approved and ready for development. |
-| **In Progress**             | Tasks currently under development. |
-| **Code Review**             | Tasks pending or undergoing code review. |
-| **Staging (More Features)** | Deployed to staging for integrated testing. |
-| **Ready for QA**            | Development complete, waiting for QA testing. |
-| **In Test QA**              | QA team actively testing the feature. |
-| **QA Bugs and Issues**      | Issues found during QA testing. |
-| **Rejected / Not a Bug**    | QA-reported issues that are invalid. |
-| **Bugs in Fix**             | Confirmed bugs under rework by devs. |
-| **Ready for Retest**        | Fixed tasks waiting for retesting. |
-| **Completed / Pass QA Test**| Tasks that have passed all QA checks. |
-| **Ready for Deployment**    | Ready to deploy to production. |
-| **Deployed**                | Live in production.
-
+### **Bug Flow Example**
 ---
 
-## 🔄 Task Lifecycle
+1. **QA Issues Found** → Tester logs a bug, links version, uses format: `bug(feature-name): title`.
+2. **Bugs To Do** → Team Leader labels it `bug/feature-name`, assigns a dev.
+3. **Bugs in Progress** → Dev creates branch `bug/feature-name`, first commit triggers move.
+4. **Bugs in Review** → PR from bug branch → `bug-fixed`, reviewed by Team Leader.
+5. **Bugs Fixed** → PR merged to `bug-fixed`.
+6. **Retesting Bugs** → PR from `bug-fixed → staging`, QA retests.
+7. **Complete / Passed QA Test** → QA confirms fix.
+8. **If failed**, card returns to **QA Issues Found** with mention to Team Leader.
 
-Example: "Login with email"
 
-1. **System Definitions / Features** → Authentication module added
-2. **To Do** → Task created: “Login with email”
-3. **In Progress** → Developers begin work
-4. **Code Review** → Peer review initiated
-5. **Staging (More Features)** → Pushed to staging
-6. **Ready for QA** → Dev complete
-7. **In Test QA** → QA testing begins
-8. **QA Bugs and Issues** → Issues reported
-9. **Bugs in Fix** → Devs fix confirmed bugs
-10. **Ready for Retest** → Sent back to QA
-11. **Completed / Pass QA Test** → QA passed
-12. **Ready for Deployment** → Staging approved
-13. **Deployed** → Feature goes live
-
----
-
-## 📝 Trello Card Structure
-
-Each task (Trello card) should contain:
-
-- **Title**: Clear and descriptive (e.g., “Add login via email/password”)
-- **Labels**: `Feature`, `Bug`, `Urgent`, etc.
-- **Checklist**:
-  - Requirements reviewed
-  - Code implemented
-  - Code reviewed
-  - Deployed to staging
-  - QA passed
-  - Ready for production
-- **Due Date**
-- **Attachments**: Figma designs, PRs, docs
-- **Members**: Developer, QA, Reviewer
-
----
-
-## 🧠 Automation Tips (Optional)
-
-Enhance Trello with automation:
-
-- **Butler Rules**:
-  - Move card to “In Progress” when a member is added
-  - Move card to “Code Review” when checklist is complete
-  - Move card to “Ready for QA” after review is approved
-- **Power-Ups**:
-  - Calendar view
-  - Card Aging
-  - GitHub/GitLab integration
-
----
-
-## 🗺️ Workflow Diagram (Swimlane)
-  
- ![Untitled](https://github.com/user-attachments/assets/ad02bb4f-6890-4166-ac96-5706c752dfd4)
+## 🧩 **Git Branch Workflow Diagram**
 
 ```mermaid
 flowchart TD
-  A[System Definitions / Features] --> B[To Do]
-  B --> C[In Progress]
-  C --> D[Code Review]
-  D --> E[Staging]
-  E --> F[Ready for QA]
-  F --> G[In Test QA]
-  G --> H[QA Bugs and Issues]
 
-  H --> I[Rejected / Not a Bug]
-  H --> J[Bugs in Fix]
-  J --> K[Ready for Retest]
-  K --> L[Completed / Pass QA Test]
-  L --> M[Ready for Deployment]
-  M --> N[Deployed]
-``` 
+  subgraph Feature Development
+    A[feature/feature-name] --> B[Pull Request to dev]
+    B --> C[dev]
+  end
 
+  subgraph Bug Fix Flow
+    D[bug/feature-name] --> E[Pull Request to bug-fixed]
+    E --> F[bug-fixed]
+    F --> G[Pull Request to staging]
+    G --> H[staging]
+  end
 
-## ✅ Deployment Flow
+  subgraph Release Flow
+    C --> I[Pull Request to staging]
+    I --> H
+    H --> J[Pull Request to main]
+    J --> K[main]
+  end
 
-* **Staging** is used for integration and QA validation.
-* Deployment occurs only after QA passes all features grouped in a version.
-* Production-ready versions are tagged (e.g., `v1.0.0 +2`).
+  style A fill:#e0f7fa,stroke:#039be5
+  style D fill:#fff3e0,stroke:#ff9800
+  style H fill:#f1f8e9,stroke:#8bc34a
+  style K fill:#ede7f6,stroke:#673ab7
+```
 
+### 📌 Explanation of Branches
+
+* **feature/feature-name**: A dedicated branch for each new feature.
+* **bug/feature-name**: A shared bug fix branch that contains multiple fixes related to a specific feature.
+* **dev**: The main development branch where all feature branches are merged.
+* **bug-fixed**: A staging branch for approved bug fixes before they are pushed to staging.
+* **staging**: The pre-production branch used for QA validation and testing.
+* **main**: The production branch used for live deployment.
+
+## ✅ Trello Card Rules
+
+* **Feature Card Title**: `feature: cart filtering`
+* **Bug Card Title**: `bug(cart): cart clears on refresh`
+* **Label**:
+
+  * `branch`: Used to map Git branch
+  * `bug/feature-name`: Required for bug grouping
+* **Checklist**:
+
+  * Tasks (for features)
+  * Reproduction steps (for bugs)
+* **Assignment**: Always assigned to developer + QA
+* **Movement**: GitHub Actions automate many transitions
 ---
 
-## 👥 Roles
+# Built with ❤️ by the Mobile teams.
 
-| Role          | Responsibility                            |
-| ------------- | ----------------------------------------- |
-| **Developer** | Implements tasks and fixes issues         |
-| **QA**        | Validates tasks and logs bugs             |
-| **Reviewer**  | Reviews code and provides feedback        |
-| **PM/Lead**   | Prioritizes, assigns, and tracks progress |
 
----
-
-## 📦 Versioning
-
-All deployable releases should be grouped under a version tag:
-
-* **v1.0.0 +2** = Version 1.0.0 with 2 additional patch/fix tasks.
-* Document version labels in the **Ready for Deployment** and **Deployed** columns.
-
----
-
-# Built with ❤️ by the moblie team .
- 
- 
